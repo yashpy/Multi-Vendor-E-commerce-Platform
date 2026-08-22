@@ -1,0 +1,32 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: ecommerce-api
+  annotations:
+    run.googleapis.com/launch-stage: GA
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "10"
+    spec:
+      containers:
+        - image: IMAGE # e.g. gcr.io/PROJECT_ID/ecommerce-api
+          ports:
+            - containerPort: 8080
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: GCP_PROJECT_ID
+              value: PROJECT_ID
+            - name: GCS_BUCKET
+              value: BUCKET
+            - name: DATABASE_URL
+              value: DATABASE_URL
+            - name: ANALYTICS_PUBLISHER_MODE
+              value: pubsub
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
