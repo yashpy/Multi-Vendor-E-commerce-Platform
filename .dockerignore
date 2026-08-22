@@ -4,3 +4,4 @@ dist
 *.log
 coverage
 .git
+.DS_Store
